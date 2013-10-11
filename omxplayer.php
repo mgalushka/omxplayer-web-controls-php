@@ -3,9 +3,11 @@ require_once 'cfg.php';
 mb_internal_encoding('UTF-8');
 setlocale(LC_ALL, 'ru_RU.UTF-8');
 ?>
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>PHP OMXPlayer Control</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<style type="text/css">
 			.error{ color:red; font-weight:bold; }
 			.button{ height: 50px; width: 85px; }

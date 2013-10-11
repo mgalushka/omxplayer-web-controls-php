@@ -1,6 +1,8 @@
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>PHP OMXPlayer Control Setup</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<style type="text/css">
 			.error{ color:red; font-weight:bold; }
 		</style>
