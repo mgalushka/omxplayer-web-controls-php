@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL);
-require_once 'cfg.php';
-require_once 'JsHttpRequest.php';
-$JsHttpRequest = new JsHttpRequest ( 'windows-1251' );
+//require_once 'cfg.php';
+//require_once 'JsHttpRequest.php';
+//$JsHttpRequest = new JsHttpRequest ( 'windows-1251' );
 
 function play($file) {
 	$err = '';
