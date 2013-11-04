@@ -1,6 +1,7 @@
 <?php
 header('Cache-Control: no-cache, must-revalidate');
-header('Content-Type: application/json; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
+//header('Content-Type: application/json; charset=utf-8');
 
 error_reporting(0);
 
