@@ -1,0 +1,11 @@
+{
+	"path" : "/media/films",
+	"files" : [
+		"file" : "/media/films/1.avi",
+		"dir" : "/media/films/451"
+	]
+}
+
+{
+	"error" : "Directory handle could not be obtained."
+}
