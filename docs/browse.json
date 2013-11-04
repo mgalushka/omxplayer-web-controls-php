@@ -1,6 +1,6 @@
 {
 	"path" : "/media/films",
-	"files" : [
+	"content" : [
 		"file" : "/media/films/1.avi",
 		"dir" : "/media/films/451"
 	]

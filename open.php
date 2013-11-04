@@ -2,7 +2,7 @@
 header('Cache-Control: no-cache, must-revalidate');
 header('Content-Type: application/json; charset=utf-8');
 
-error_reporting(E_ALL);
+error_reporting(0);
 
 //////////////////////////////////////////////////////////////////////////////////
 // Explore the files via a web interface.
@@ -23,11 +23,11 @@ if (is_dir($path)) {
 		while (($item = readdir($handle)) !== false) {
 			// Loop through current directory and divide files and directorys
 			if(is_dir($item)){
-				array_push($directories, realpath($item));
+				array_push($directories, json_encode(realpath($item)));
 			}
 			else
 			{
-				array_push($files, ($item));
+				array_push($files, json_encode(realpath($item)));
 			}
 		}
 		closedir($handle); // Close the directory handle
@@ -45,24 +45,47 @@ else
 asort($directories, SORT_NATURAL);
 asort($files, SORT_NATURAL);
 // There are now two arrays that contians the contents of the path.
-
-// List the directories as browsable navigation
+// List the directories as json
 echo "{\n";
-echo "\"path\" : \"${path}\"";
+$escaped_path = json_encode($path);
+echo "\"path\" : ${escaped_path}";
 if(!empty($directories) || !empty($files)){
-	echo ",\n\"files\" : [";
-}
-foreach( $directories as $directory ){
-	echo ($directory != $path) ? "\"dir\" : \"${directory}\"," : "";
+	echo ",\n\"content\" : [\n";
 }
 
+$i = 0;
+$len = count($directories);
+foreach( $directories as $directory ){
+	if($directory != $path){
+		echo "\t{\"dir\" : ${directory}}";
+		if ($i < $len - 1){
+			echo ",\n";
+		}		
+	}
+	$i++;
+}
+
+if(!empty($files) || !empty($files)){
+	echo ",\n";
+}
+
+$i = 0;
+$len = count($files);
 foreach( $files as $file ){
 	// Comment the next line out if you wish see hidden files while browsing
-	if(preg_match("/^\./", $file) || $file == $script): continue; endif; // This line will hide all invisible files.
-	echo "\"file\" : \"${file}\"," : "";
+	// This line will hide all invisible files.
+	if(preg_match("/^\./", $file) || $file == $script){
+		$i++;
+		continue;
+	}		
+	echo "\t{\"file\" : ${file}}";
+	if ($i < $len - 1){
+		echo ",\n";
+	}
+	$i++;
 }
 if(!empty($directories) || !empty($files)){
-	echo "]\n";
+	echo "\n\t]\n";
 }
 echo "}\n";
 
