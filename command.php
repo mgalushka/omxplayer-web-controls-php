@@ -8,8 +8,7 @@
 	
 	$verb = $_SERVER['REQUEST_METHOD'];
 	
-	if($verb === 'POST'){
-		
+	if($verb === 'POST'){		
 		
 		$body = file_get_contents('php://input');
 				
@@ -70,7 +69,7 @@
 			echo json_encode(array('error' => $result['error']));
 			exit();
 		}
-		echo json_encode(array('action' => $action, 'result' => $result['result']));
+		echo json_encode($result['result']);
 	}
 	else{	
 		echo json_encode(array('error' => 'Action should be sent with POST verb'));
@@ -98,11 +97,14 @@
 				while (($item = readdir($handle)) !== false) {
 					// Loop through current directory and divide files and directorys
 					if(is_dir($item)){
-						array_push($content, array ("path" => realpath($item), "name" => "", "type" => "DIR"));
+						if(realpath($item)){
+							array_push($content, array ("path" => realpath($item), "name" => "", "type" => "DIR"));
+						}
 					}
-					else
-					{
-						array_push($content, array ("path" => realpath($item), "name" => "", "type" => "FILE"));
+					if(is_file($item)){
+						if(realpath($item)){
+							array_push($content, array ("path" => realpath($item), "name" => $item, "type" => "FILE"));
+						}
 					}
 				}
 				closedir($handle); // Close the directory handle
