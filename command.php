@@ -55,7 +55,7 @@
 			break;
 
 			default:
-				$error = 'wrong command';
+				$error = 'Wrong command: '.$action;
 		}
 		
 		if(!empty($error)){
@@ -79,7 +79,7 @@
 	}
 	
 	function send($command) {
-		$out = $command."running";
+		$out = $command." running";
 		$error = "";
 		return array ( 'result' => $out, 'error' => $error );
 	}
@@ -92,7 +92,7 @@
 			posix_mkfifo(FIFO, 0777);
 			chmod(FIFO, 0777);
 			shell_exec ( getcwd().'/omx_php.sh '.escapeshellarg($file).' '.FIFO);
-			$out = 'playing '.basename($file);
+			$out = 'Playing '.basename($file);
 		} else {
 			$error = 'omxplayer is already runnning';
 		}
@@ -111,12 +111,12 @@
 					if ($command == 'q') {
 						sleep (1);
 						@unlink(FIFO);
-						$out = 'stopped';
+						$out = 'Stopped';
 					}
 				}
 			}
 		} else {
-			$error .= 'not running';
+			$error .= 'Not running';
 		}
 		return array ( 'result' => $out, 'error' => $error );
 	}
