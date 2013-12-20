@@ -9,7 +9,7 @@
 	$verb = $_SERVER['REQUEST_METHOD'];
 	
 	if($verb === 'POST'){
-		// internal usage - so don't need to escape	
+		
 		
 		$body = file_get_contents('php://input');
 				
@@ -17,6 +17,10 @@
 		$action = $request['request'];
 						
 		switch ($action) {
+			case 'browse':
+				$path = $request['path'];
+				$result = browse($path);
+			break;
 			case 'play':
 				$path = $request['path'];
 				$result = play($path);
@@ -82,6 +86,37 @@
 		$out = $command." running";
 		$error = "";
 		return array ( 'result' => $out, 'error' => $error );
+	}
+	
+	function browse($path){
+		$result = array("path" => $path);
+		$content = array();
+		// Check we are focused on a dir
+		if (is_dir($path)) {
+			chdir($path); // Focus on the dir
+			if ($handle = opendir('.')) {
+				while (($item = readdir($handle)) !== false) {
+					// Loop through current directory and divide files and directorys
+					if(is_dir($item)){
+						array_push($content, array ("path" => realpath($item), "name" => "", "type" => "DIR"));
+					}
+					else
+					{
+						array_push($content, array ("path" => realpath($item), "name" => "", "type" => "FILE"));
+					}
+				}
+				closedir($handle); // Close the directory handle
+				$result["content"] = $content;
+				return array ( 'result' => $result );
+			}			
+			else {
+				return array ( 'result' => $out, 'error' => $path.' is not a directory' );
+			}
+		}
+		else
+		{
+			return array ( 'result' => $out, 'error' => $path.' is not a directory' );
+		}
 	}
 	
 	function _play($file) {
