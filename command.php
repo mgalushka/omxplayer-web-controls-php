@@ -16,17 +16,17 @@
 		$action = $request['request'];
 						
 		switch ($action) {
-			case 'remount':				
+			case 'remount';			
 				$result = remount();
 			break;
-			case 'reboot':
+			case 'reboot';
 				$result = reboot();
 			break;
-			case 'browse':
+			case 'browse';
 				$path = $request['path'];
 				$result = browse($path);
 			break;
-			case 'play':
+			case 'play';
 				$path = $request['path'];
 				$result = play($path);
 			break;
