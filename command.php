@@ -161,10 +161,12 @@
 	
 	function remount(){
 		shell_exec ("/home/pi/mount.bash");
+		return array ( 'result' => 'Remounting shared drive');
 	}
 	
 	function reboot(){
 		shell_exec ("sudo reboot");
+		return array ( 'result' => 'Reboot requested');
 	}
 	
 
