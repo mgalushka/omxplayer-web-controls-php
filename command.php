@@ -84,6 +84,17 @@
 	function send($command) {
 		$out = $command." running";
 		$error = "";
+		exec('pgrep omxplayer', $pids);  //omxplayer
+		if ( empty($pids) ) {
+			@unlink (FIFO);
+			posix_mkfifo(FIFO, 0777);
+			chmod(FIFO, 0777);
+			shell_exec ( getcwd().'/omx_php.sh '.escapeshellarg($file).' '.FIFO);
+			$out = 'Playing '.basename($file);
+		} else {
+			// TODO: kill player and retry ...
+			$error = 'omxplayer is already runnning';
+		}
 		return array ( 'result' => $out, 'error' => $error );
 	}
 	
