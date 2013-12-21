@@ -105,7 +105,7 @@
 				break;
 			} else {
 				// TODO: kill player and retry ...
-				for($pids as &$id){
+				foreach($pids as &$id){
 					$out .= "kill -9 ".$id."\n";
 					shell_exec("sudo kill -9 ".$id);
 				}				
