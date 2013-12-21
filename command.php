@@ -112,7 +112,7 @@
 			}
 		}
 		if(!$success){
-			$error = "Could not refresh player"
+			$error = "Could not refresh player";
 		}
 		return array ( 'result' => $out, 'error' => $error );
 	}
