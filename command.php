@@ -16,55 +16,58 @@
 		$action = $request['request'];
 						
 		switch ($action) {
-			case 'remount';			
-				$result = remount();
-			break;
-			case 'reboot';
-				$result = reboot();
-			break;
-			case 'browse';
+			case 'browse':
 				$path = $request['path'];
 				$result = browse($path);
 			break;
-			case 'play';
+			
+			case 'play':
 				$path = $request['path'];
 				$result = play($path);
 			break;
 
-			case 'stop';
+			case 'stop':
 				$result = send('q');
 			break;
 
-			case 'pause';
+			case 'pause':
 				$result = send('p');
 			break;
 
-			case 'volup';
+			case 'volup':
 				send('+');
 				send('+');
 				$result = send('+');
 			break;
 
-			case 'voldown';
+			case 'voldown':
 				send('-');
 				send('-');
 				$result = send('-');
 			break;
 
-			case 'seek-30';
+			case 'seek-30':
 				$result = send(pack('n',0x5b44));
 			break;
 
-			case 'seek30';
+			case 'seek30':
 				$result = send(pack('n',0x5b43));
 			break;
 
-			case 'seek-600';
+			case 'seek-600':
 				$result = send(pack('n',0x5b42));
 			break;
 
-			case 'seek600';
+			case 'seek600':
 				$result = send(pack('n',0x5b41));
+			break;
+			
+			case 'remount':			
+				$result = remount();
+			break;
+			
+			case 'reboot':
+				$result = reboot();
 			break;
 
 			default:
