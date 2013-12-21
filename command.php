@@ -84,7 +84,7 @@
 			posix_mkfifo(FIFO, 0777);
 			chmod(FIFO, 0777);
 			shell_exec ( getcwd().'/omx_php.sh '.escapeshellarg($file).' '.FIFO);
-			$out = $out.'Playing '.basename($file);
+			$out = $out.'Playing '.escapeshellarg($file);
 		} else {
 			// TODO: kill player and retry ...
 			$error = 'omxplayer is already runnning';
