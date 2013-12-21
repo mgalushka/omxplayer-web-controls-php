@@ -8,3 +8,4 @@ Install it into apache to be accessible via http (just clone)
 Remember to allow group write to installation directory:
 chmod -R 777 .
 
+![Android client](https://github.com/mgalushka/omxplayer-remote-android)
