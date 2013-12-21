@@ -89,18 +89,30 @@
 	}	
 	
 	function play($file) {
-		$out = "Start playing file: ".$file.". ";
+		$out = "Start playing file: ".$file.".\n";
 		$error = "";
-		exec('pgrep omxplayer', $pids);  //omxplayer
-		if ( empty($pids) ) {
-			@unlink (FIFO);
-			posix_mkfifo(FIFO, 0777);
-			chmod(FIFO, 0777);
-			shell_exec ( getcwd().'/omx_php.sh '.escapeshellarg($file).' '.FIFO);
-			$out = $out.'Playing '.escapeshellarg($file);
-		} else {
-			// TODO: kill player and retry ...
-			$error = 'omxplayer is already runnning';
+		$retry = 3;
+		$success = false;
+		while($retry-- > 0){
+			exec('pgrep omxplayer', $pids);  //omxplayer
+			if ( empty($pids) ) {
+				@unlink (FIFO);
+				posix_mkfifo(FIFO, 0777);
+				chmod(FIFO, 0777);
+				shell_exec ( getcwd().'/omx_php.sh '.escapeshellarg($file).' '.FIFO);
+				$out .= 'Playing '.escapeshellarg($file)."\n";
+				$success = true;
+				break;
+			} else {
+				// TODO: kill player and retry ...
+				for($pids as &$id){
+					$out .= "kill -9 ".$id."\n";
+					shell_exec("sudo kill -9 ".$id);
+				}				
+			}
+		}
+		if(!$success){
+			$error = "Could not refresh player"
 		}
 		return array ( 'result' => $out, 'error' => $error );
 	}
