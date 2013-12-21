@@ -16,6 +16,12 @@
 		$action = $request['request'];
 						
 		switch ($action) {
+			case 'remount':				
+				$result = remount();
+			break;
+			case 'reboot':
+				$result = reboot();
+			break;
 			case 'browse':
 				$path = $request['path'];
 				$result = browse($path);
@@ -153,41 +159,13 @@
 		}
 	}
 	
-	function _play($file) {
-		$error = '';
-		exec('pgrep omxplayer', $pids);  //omxplayer
-		if ( empty($pids) ) {
-			@unlink (FIFO);
-			posix_mkfifo(FIFO, 0777);
-			chmod(FIFO, 0777);
-			shell_exec ( getcwd().'/omx_php.sh '.escapeshellarg($file).' '.FIFO);
-			$out = 'Playing '.basename($file);
-		} else {
-			$error = 'omxplayer is already runnning';
-		}
-		return array ( 'result' => $out, 'error' => $error );
+	function remount(){
+		shell_exec ("/home/pi/mount.bash");
 	}
-
-	function _send($command) {
-		$error = '';
-		exec('pgrep omxplayer', $pids);
-		if ( !empty($pids) ) {
-			if ( is_writable(FIFO) ) {
-				if ( $fifo = fopen(FIFO, 'w') ) {
-					stream_set_blocking($fifo, false);
-					fwrite($fifo, $command);
-					fclose($fifo);
-					if ($command == 'q') {
-						sleep (1);
-						@unlink(FIFO);
-						$out = 'Stopped';
-					}
-				}
-			}
-		} else {
-			$error .= 'Not running';
-		}
-		return array ( 'result' => $out, 'error' => $error );
+	
+	function reboot(){
+		shell_exec ("sudo reboot");
 	}
+	
 
 ?>
