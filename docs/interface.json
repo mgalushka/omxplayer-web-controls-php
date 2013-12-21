@@ -1,0 +1,17 @@
+Browse post:
+{"path":"C:\\cygwin","request":"browse"}
+
+Play post:
+{"request":"play", "path" : "/media/films/i.mkv"}
+
+Pause/resume:
+{"request":"pause"}
+
+Volume down:
+{"request":"voldown"}
+
+Volume up:
+{"request":"volup"}
+
+Stop:
+{"request":"stop"}
