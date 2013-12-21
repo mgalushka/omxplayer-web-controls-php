@@ -34,10 +34,14 @@
 			break;
 
 			case 'volup';
+				send('+');
+				send('+');
 				$result = send('+');
 			break;
 
 			case 'voldown';
+				send('-');
+				send('-');
 				$result = send('-');
 			break;
 
